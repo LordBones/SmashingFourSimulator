@@ -1,0 +1,43 @@
+name,type,level, attack, health, attackIncrementPerc, healthIncrementPerc, attackBonus, healthBonus
+
+pirat     , C , 7, 56,  268, 16,  21, 0, 0
+okultista , R , 5, 41,  281, 19,  25, 0, 0 
+bersek    , C , 7, 42,  288, 20,  25, 0, 0 
+barbaka   , C , 8, 54,  351, 19,  25, 0, 0 
+paladin   , R , 5, 35,  291, 20,  27, 0, 0
+stromak   , C , 8, 48,  447, 16,  23, 0, 0
+naga      , C , 8, 52,  367, 14,  20, 0, 0
+goblin    , C , 7, 61,  231, 15,  20, 0, 0
+kostlivec , C , 6, 52,  253, 14,  19, 0, 0
+strazce   , E , 1, 28,  265, 10,  20, 0, 0
+carodejnice  , R , 1, 42,  130, 10,  16, 0, 0
+zombie    , R , 5, 27,  328, 15,  20, 0, 0
+yeti      , C , 1, 24,  163, 10,  15, 0, 0
+prizrak   , E , 1, 41,  196, 15,  24, 0, 0
+saman     , E , 2, 38,  185, 16,  26, 0, 0
+upir      , E , 1, 54,  143, 13,  24, 0, 0
+rytir     , C , 6, 37,  267, 22,  25, 0, 0
+lucisnice , C , 5, 39,  150, 21,  25, 0, 0
+kovar     , R , 5, 38,  302, 16,  23, 0, 0
+satyr     , C , 4, 23,  154, 17,  23, 0, 0
+bansi     , R , 3, 47,  215, 13,  21, 0, 0
+fenix     , R , 3, 48,  131, 17,  17, 0, 0
+raketak   , E , 3, 50,  336, 0,  0, 0, 0
+zabijak   , R , 2, 31,  110, 20,  27, 0, 0
+golem     , C , 2, 21,  190, 10,  15, 23, 0
+jaguar    , R , 2, 34,  146, 15,  23, 34, 0
+robot     , R , 2, 30,  207, 13,  18, 0, 0
+drtic     , C , 2, 23,  151, 9,  15, 0, 0
+kouzelnik , R , 2, 27,  123, 19,  25, 0, 0
+bombardak , C , 1, 43,  89,  11,  17, 0, 0
+drace     , E , 1, 46,  197, 11,  20, 0, 0
+druid     , E , 1, 27,  149, 0,  0, 0, 0
+polarni_liska , C , 1, 40,  117, 10,  10, 0, 0
+dzin      , E , 1, 0,  171, 0,  22, 0, 0
+obr       , R , 1, 15,  120, 20,  27, 0, 0
+kong      , R , 1, 31,  197, 10,  16, 0, 0
+ork       , R , 1, 27,  155, 15,  23, 0, 0
+ledova_kralovna , R , 1, 23,  179, 9,  16, 0, 0
+pasovec   , C , 1, 26,  92, 12,  20, 0, 0
+
+

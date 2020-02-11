@@ -1,0 +1,42 @@
+         345158 function calls in 3.085 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    3.084    3.084 <string>:1(<module>)
+        3    0.004    0.001    0.015    0.005 CSV.py:73(save_HeroFightScore)
+        1    0.006    0.006    0.014    0.014 CSV.py:8(loadHeroes)
+      406    0.001    0.000    0.001    0.000 FightSimulator.py:14(__init__)
+   329672    2.575    0.000    2.575    0.000 FightSimulator.py:22(simulFight)
+        1    0.477    0.477    3.054    3.054 FightSimulator.py:42(simulFights)
+      406    0.001    0.000    0.007    0.000 Hero.py:15(__init__)
+        1    0.000    0.000    0.000    0.000 _bootlocale.py:11(getpreferredencoding)
+        3    0.000    0.000    0.000    0.000 codecs.py:186(__init__)
+        1    0.000    0.000    0.000    0.000 codecs.py:260(__init__)
+        5    0.000    0.000    0.000    0.000 cp1252.py:22(decode)
+        1    0.000    0.000    3.084    3.084 sandbox.py:36(ComputeHeroesFight)
+      406    0.000    0.000    0.000    0.000 sandbox.py:42(sortByScore)
+      406    0.000    0.000    0.000    0.000 sandbox.py:44(sortByLevel)
+      406    0.003    0.000    0.003    0.000 uuid.py:121(__init__)
+      406    0.001    0.000    0.006    0.000 uuid.py:757(uuid4)
+        5    0.000    0.000    0.000    0.000 {built-in method _codecs.charmap_decode}
+        1    0.000    0.000    0.000    0.000 {built-in method _csv.reader}
+        3    0.000    0.000    0.000    0.000 {built-in method _csv.writer}
+        1    0.000    0.000    0.000    0.000 {built-in method _locale._getdefaultlocale}
+        1    0.000    0.000    3.085    3.085 {built-in method builtins.exec}
+      406    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+     1219    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+      406    0.000    0.000    0.000    0.000 {built-in method from_bytes}
+        4    0.002    0.000    0.002    0.000 {built-in method io.open}
+      406    0.001    0.000    0.001    0.000 {built-in method nt.urandom}
+      812    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'close' of '_io.TextIOWrapper' objects}
+      406    0.000    0.000    0.000    0.000 {method 'count' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+     7326    0.006    0.000    0.006    0.000 {method 'format' of 'str' objects}
+      406    0.000    0.000    0.000    0.000 {method 'lower' of 'str' objects}
+        2    0.000    0.000    0.001    0.000 {method 'sort' of 'list' objects}
+      406    0.000    0.000    0.000    0.000 {method 'strip' of 'str' objects}
+     1221    0.004    0.000    0.004    0.000 {method 'writerow' of '_csv.writer' objects}
+
+
