@@ -39,23 +39,23 @@ def simulFight(attaker:CHero.Hero, defender:CHero.Hero)->SimulFightResult:
     return SimulFightResult.LOSE
 
 
-def simulFights(heroes:[CHero.Hero])-> [HeroFightScore]:
+def simulFights(heroesForEvaluate:[CHero.Hero], oponents:[CHero.Hero])-> [HeroFightScore]:
 
     result: [HeroFightScore] = []
 
-    for i in range(0,len(heroes)):
+    for i in range(0,len(heroesForEvaluate)):
         resultScore = 0
 
-        for m in range(0,len(heroes)):
-            fightStatus = simulFight(heroes[i], heroes[m])
+        for m in range(0,len(oponents)):
+            fightStatus = simulFight(heroesForEvaluate[i], oponents[m])
             if(fightStatus == SimulFightResult.WIN): resultScore+=2
             elif (fightStatus == SimulFightResult.DRAW): resultScore += 1
 
-            fightStatus = simulFight(heroes[m], heroes[i])
+            fightStatus = simulFight(oponents[m], heroesForEvaluate[i])
             if (fightStatus == SimulFightResult.LOSE): resultScore += 2
             elif (fightStatus == SimulFightResult.DRAW):  resultScore += 1
 
-        result.append(HeroFightScore(heroes[i],resultScore))
+        result.append(HeroFightScore(heroesForEvaluate[i],resultScore))
 
     return result
 

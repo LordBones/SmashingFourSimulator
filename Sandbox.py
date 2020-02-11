@@ -25,16 +25,16 @@ def genMissingHeroesLevels(heroes:[Core.Hero]):
 
 
 
-def LoadHeores():
-    out = Core.CSV.loadHeroes("InputData/Heroes.csv")
+def GenHeoresDB():
+    out = Core.CSV.load_Heroes("InputData/Heroes.csv")
 
     newOut = genMissingHeroesLevels(out)
 
-    Core.CSV.SaveHeroes("InputData/HeroesDB.csv",newOut)
+    Core.CSV.Save_Heroes("InputData/HeroesDB.csv",newOut)
     print('dd')
 
-def ComputeHeroesFight():
-    out = Core.CSV.loadHeroes("InputData/HeroesDB.csv")
+def ComputeAllHeroesFight():
+    out = Core.CSV.load_Heroes("InputData/HeroesDB.csv")
 
     result = FSimulator.simulFights(out)
     Core.CSV.save_HeroFightScore("ResultData/HeroesFightResult.csv", result)
@@ -51,12 +51,33 @@ def ComputeHeroesFight():
 
     pass
 
+def ComputeHeroesFight():
+    heroesDb = Core.CSV.load_Heroes("InputData/HeroesDB.csv")
+    myHeroes = Core.CSV.load_HeroeIds("InputData/MyHeroesCards.csv")
+
+    heroesForCompute = Core.Hero.get_all_heroes_by_hero_id(myHeroes,heroesDb)
+    result = FSimulator.simulFights(heroesForCompute ,heroesDb)
+    Core.CSV.save_HeroFightScore("ResultData/MyHeroesCardsFightResult.csv", result)
+
+    def sortByScore(e):
+        return e.score
+    def sortByLevel(e):
+        return e.heroData.level
+
+    result.sort(reverse=True, key=sortByScore)
+    Core.CSV.save_HeroFightScore( "ResultData/MyHeroesCardsFightResult_sortScore.csv", result)
+    result.sort(reverse=True, key=sortByLevel)
+    Core.CSV.save_HeroFightScore("ResultData/MyHeroesCardsFightResult_sortLevel.csv", result)
+
+    pass
+
 
 
 if __name__ == "__main__":
-    cProfile.run('ComputeHeroesFight()')
+    #cProfile.run('ComputeHeroesFight()')
 
-    #LoadHeores()
+    #GenHeoresDB()
+    #ComputeAllHeroesFight()
     ComputeHeroesFight()
 
     pass

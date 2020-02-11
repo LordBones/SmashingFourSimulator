@@ -5,7 +5,7 @@ import csv
 
 
 
-def loadHeroes(fileName: str) -> [Hero.Hero]:
+def load_Heroes(fileName: str) -> [Hero.Hero]:
 
     result = []
 
@@ -15,7 +15,7 @@ def loadHeroes(fileName: str) -> [Hero.Hero]:
         for row in spamreader:
             if len(row) == 0 : continue
 
-            name = row[0]
+            name = row[0].strip()
             fType =  row[1].lower().strip()
             level = int(row[2])
             attack = int(row[3])
@@ -46,7 +46,7 @@ def loadHeroes(fileName: str) -> [Hero.Hero]:
     return result
 
 
-def SaveHeroes(fileName: str, heroes:[Hero.Hero]):
+def Save_Heroes(fileName: str, heroes:[Hero.Hero]):
     with open(fileName, mode='w', newline='', encoding='utf-8') as file:
         f_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
@@ -69,6 +69,25 @@ def SaveHeroes(fileName: str, heroes:[Hero.Hero]):
             ])
 
 
+def load_HeroeIds(fileName: str) -> [Hero.HeroId]:
+    result = []
+
+    with open(fileName, newline='',mode='r') as csvFile:
+        spamreader = csv.reader(csvFile, delimiter=',', quotechar='"')
+        spamreader.__next__()
+        for row in spamreader:
+            if len(row) == 0 : continue
+
+            name = row[0].strip()
+            level = int(row[1])
+
+            # inicializace bojovnika
+            h = Hero.HeroId(level, name)
+
+            result.append(h)
+
+    csvFile.close()
+    return result
 
 def save_HeroFightScore(fileName: str, heroesScore:[HeroFightScore]):
     with open(fileName, mode='w', newline='', encoding='utf-8') as file:

@@ -31,6 +31,27 @@ class Hero:
         return result"""
 
 
+class HeroId:
+    __slots__ = ('id','name', 'level'  )
+
+    def __init__(self, level: int, name:str):
+        self.id = uuid.uuid4()
+        self.name = name
+        self.level = level
+
+
+"""
+vrati vsechny hrdiny podle heroId
+"""
+def get_all_heroes_by_hero_id(for_match:[HeroId],   herosSrc: [Hero])->[Hero]:
+    result: [Hero] = []
+
+    for hi in for_match:
+        match =  [_ for _ in herosSrc if (_.name == hi.name and _.level == hi.level)]
+        if(len(match) > 0):
+            result.append(match[0])
+
+    return result
 
 """
 generuje ostatni levely tohoto hrdiny
