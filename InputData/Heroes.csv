@@ -1,4 +1,4 @@
-name,type,level, attack, health, attackIncrementPerc, healthIncrementPerc, attackBonus, healthBonus
+name,type,level, attack, health, attackIncrPerc, healthIncrPerc, ability, abilityIncr
 
 pirat     , C , 7, 56,  268, 16,  21, 0, 0
 okultista , R , 5, 41,  281, 19,  25, 0, 0 
@@ -11,7 +11,7 @@ goblin    , C , 7, 61,  231, 15,  20, 0, 0
 kostlivec , C , 6, 52,  253, 14,  19, 0, 0
 strazce   , E , 1, 28,  265, 10,  20, 0, 0
 carodejnice  , R , 1, 42,  130, 10,  16, 0, 0
-zombie    , R , 5, 27,  328, 15,  20, 0, 0
+zombie    , R , 5, 27,  328, 15,  20, 20, 15
 yeti      , C , 1, 24,  163, 10,  15, 0, 0
 prizrak   , E , 1, 41,  196, 15,  24, 0, 0
 saman     , E , 2, 38,  185, 16,  26, 0, 0

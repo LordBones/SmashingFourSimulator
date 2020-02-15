@@ -20,10 +20,10 @@ def load_Heroes(fileName: str) -> [Hero.Hero]:
             level = int(row[2])
             attack = int(row[3])
             health = int(row[4])
-            attackIncrementPerc = int(row[5])
-            healthIncrementPerc = int(row[6])
-            attackBonus = int(row[7])
-            healthBonus = int(row[8])
+            attackIncrPerc = int(row[5])
+            healthIncrPerc = int(row[6])
+            ability = int(row[7])
+            ability_incr = int(row[8])
 
             fTypes = {'c': Hero.CONST_Type_Common,
                       'r': Hero.CONST_Type_Rare,
@@ -35,10 +35,10 @@ def load_Heroes(fileName: str) -> [Hero.Hero]:
             h.attack = attack
             h.name = name
             h.health = health
-            h.attackIncrementPerc = attackIncrementPerc
-            h.healthIncrementPerc = healthIncrementPerc
-            h.attackBonus = attackBonus
-            h.healthBonus = healthBonus
+            h.attack_increment_perc = attackIncrPerc
+            h.health_increment_perc = healthIncrPerc
+            h.ability = ability
+            h.ability_incr = ability_incr
 
             result.append(h)
 
@@ -46,33 +46,33 @@ def load_Heroes(fileName: str) -> [Hero.Hero]:
     return result
 
 
-def Save_Heroes(fileName: str, heroes:[Hero.Hero]):
-    with open(fileName, mode='w', newline='', encoding='utf-8') as file:
+def save_heroes(file_name: str, heroes:[Hero.Hero]):
+    with open(file_name, mode='w', newline='', encoding='utf-8') as file:
         f_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-        fTypes_map = { Hero.CONST_Type_Common : 'c',
+        f_types_map = { Hero.CONST_Type_Common : 'c',
                    Hero.CONST_Type_Rare : 'r',
                   Hero.CONST_Type_Epic : 'e'}
 
-        f_writer.writerow(['name','type','level', 'attack', 'health', 'attackIncrementPerc', 'healthIncrementPerc', 'attackBonus', 'healthBonus'])
+        f_writer.writerow(['name','type','level', 'attack', 'health', 'attackIncrPerc', 'healthIncrPerc', 'ability', 'abilityIncr'])
         for hero in heroes:
             f_writer.writerow([
-                '{:15}'.format(hero.name) ,
-                '{:^3}'.format(fTypes_map[hero.type]),
+                '{:15}'.format(hero.name),
+                '{:^3}'.format(f_types_map[hero.type]),
                 '{:>3}'.format(hero.level),
                 '{:>5}'.format(hero.attack),
                 '{:>5}'.format(hero.health),
-                '{:>5}'.format(hero.attackIncrementPerc),
-                '{:>5}'.format(hero.healthIncrementPerc),
-                '{:>5}'.format(hero.attackBonus),
-                '{:>5}'.format(hero.healthBonus)
+                '{:>5}'.format(hero.attack_increment_perc),
+                '{:>5}'.format(hero.health_increment_perc),
+                '{:>5}'.format(hero.ability),
+                '{:>5}'.format(hero.ability_incr)
             ])
 
 
-def load_HeroeIds(fileName: str) -> [Hero.HeroId]:
+def load_heroe_ids(file_name: str) -> [Hero.HeroId]:
     result = []
 
-    with open(fileName, newline='',mode='r') as csvFile:
+    with open(file_name, newline='', mode='r') as csvFile:
         spamreader = csv.reader(csvFile, delimiter=',', quotechar='"')
         spamreader.__next__()
         for row in spamreader:
@@ -89,8 +89,8 @@ def load_HeroeIds(fileName: str) -> [Hero.HeroId]:
     csvFile.close()
     return result
 
-def save_HeroFightScore(fileName: str, heroesScore:[HeroFightScore]):
-    with open(fileName, mode='w', newline='', encoding='utf-8') as file:
+def save_hero_fight_score(file_name: str, heroes_score:[HeroFightScore]):
+    with open(file_name, mode='w', newline='', encoding='utf-8') as file:
         f_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         fTypes_map = {Hero.CONST_Type_Common: 'c',
@@ -98,23 +98,36 @@ def save_HeroFightScore(fileName: str, heroesScore:[HeroFightScore]):
                       Hero.CONST_Type_Epic: 'e'}
 
         f_writer.writerow([
-            '{:3}'.format('type'),
+            '{:4}'.format('type'),
             '{:20}'.format('name'),
-            '{:>3}'.format('level'),
-            '{:>3}'.format('attack'),
-            '{:>3}'.format('health'),
-            '{:>3}'.format('score')])
-        for heroScore in heroesScore:
-            hero = heroScore.heroData
+            '{:>5}'.format('level'),
+            '{:>5}'.format('order'),
+            '{:>5}'.format('score'),
+            '{:>12}'.format('efectivity'),
+
+            '{:>5}'.format('win'),
+            '{:>5}'.format('draw'),
+            '{:>5}'.format('lose'),
+
+            '{:>5}'.format('attack'),
+            '{:>5}'.format('health')
+
+        ])
+        for heroScore in heroes_score:
+            hero = heroScore.hero_data
             f_writer.writerow([
-                '{:3}'.format(fTypes_map[hero.type]),
+                '{:4}'.format(fTypes_map[hero.type]),
                 '{:20}'.format(hero.name) ,
-                '{:>3}'.format(hero.level),
+                '{:>5}'.format(hero.level),
+                '{:>5}'.format(heroScore.order),
+                '{:>5}'.format(heroScore.score),
+                '{:>12}'.format(round(heroScore.order_cost_effectivity,2)),
+                '{:>5}'.format(heroScore.win),
+                '{:>5}'.format(heroScore.draw),
+                '{:>5}'.format(heroScore.lose),
                 '{:>5}'.format(hero.attack),
                 '{:>5}'.format(hero.health),
-                '{:>5}'.format(heroScore.score)
             ])
-
 
 if __name__ == "__main__":
     pass

@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f1f52fc-e633-4adf-a301-a8cab22843f8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/CSV.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/CSV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/FightSimulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/FightSimulator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Hero.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Hero.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sandbox.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sandbox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/perf.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,6 +27,8 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowVersion Control.ShowToolbar" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -71,7 +71,7 @@
     </recent_temporary>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>C:\Users\bones\AppData\Roaming\Subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -88,7 +88,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -96,13 +98,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Sandbox.py</url>
-          <line>51</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" log-message="true" log-stack="true" type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
