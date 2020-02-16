@@ -114,8 +114,8 @@ def save_fight_results(results: [Core.FightSimulator.HeroFightScore], result_nam
 if __name__ == "__main__":
     # cProfile.run('compute_all_heroes_fight()')
 
-    gen_heores_db()
-    compute_all_heroes_fight()
+    #gen_heores_db()
+    #compute_all_heroes_fight()
     compute_mycards_heroes_fight()
     # compute_onehero_fight('zombie')
     #compute_onehero_fight('zombie','zombieNext')
