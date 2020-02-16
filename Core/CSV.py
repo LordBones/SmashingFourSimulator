@@ -103,7 +103,10 @@ def save_hero_fight_score(file_name: str, heroes_score:[HeroFightScore]):
             '{:>5}'.format('level'),
             '{:>5}'.format('order'),
             '{:>5}'.format('score'),
+            '{:>10}'.format('r/s/c'),
+            '{:>8}'.format('scoreUp'),
             '{:>12}'.format('efectivity'),
+            '{:>12}'.format('efectivityUp'),
 
             '{:>5}'.format('win'),
             '{:>5}'.format('draw'),
@@ -115,13 +118,23 @@ def save_hero_fight_score(file_name: str, heroes_score:[HeroFightScore]):
         ])
         for heroScore in heroes_score:
             hero = heroScore.hero_data
+            hero_name = hero.name
+            if hero.help_mark:
+                hero_name = '* ' + hero_name
+
             f_writer.writerow([
                 '{:4}'.format(fTypes_map[hero.type]),
-                '{:20}'.format(hero.name) ,
+                '{:20}'.format(hero_name) ,
                 '{:>5}'.format(hero.level),
                 '{:>5}'.format(heroScore.order),
                 '{:>5}'.format(heroScore.score),
+                '{:>10}'.format(round(heroScore.level_score_cost_ratio,2)),
+
+                '{:>8}'.format(heroScore.score_improvement),
+
                 '{:>12}'.format(round(heroScore.order_cost_effectivity,2)),
+                '{:>12}'.format(round(heroScore.upgrade_effectivity, 2)),
+
                 '{:>5}'.format(heroScore.win),
                 '{:>5}'.format(heroScore.draw),
                 '{:>5}'.format(heroScore.lose),

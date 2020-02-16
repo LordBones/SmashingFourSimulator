@@ -1,4 +1,5 @@
 from enum import Enum
+from itertools import accumulate
 import Core.Hero as CHero
 
 
@@ -11,18 +12,28 @@ _level_costs_common = dict(zip(range(1,19),[0,10,25,50,150,500,1000,2000,5000,10
 _level_costs_rare = dict(zip(range(1,17),[0,50,150,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000]))
 _level_costs_epic = dict(zip(range(1,15),[0,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000]))
 
+_level_costs_cumulative_common = dict(zip(range(1,19),accumulate([0,10,25,50,150,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000])))
+_level_costs_cumulative_rare = dict(zip(range(1,17),accumulate([0,50,150,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000])))
+_level_costs_cumulative_epic = dict(zip(range(1,15),accumulate([0,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000])))
+
+
 
 class HeroFightScore:
-    __slots__ = ('hero_data', 'score', 'order', 'win', 'draw', 'lose', 'order_cost_effectivity')
+    __slots__ = ('hero_data', 'score', 'order', 'win', 'draw', 'lose',
+                 'order_cost_effectivity','upgrade_effectivity', 'score_improvement','level_score_cost_ratio')
 
     def __init__(self, hero: CHero.Hero, score: int):
         self.hero_data = hero
+
         self.score = score
         self.win = 0
         self.draw = 0
         self.lose = 0
         self.order = 0
         self.order_cost_effectivity = 0
+        self.upgrade_effectivity = 0
+        self.score_improvement = 0
+        self.level_score_cost_ratio = 0
 
     def __repr__(self, *args, **kwargs):
         return "{0} score:{1}".format(self.hero_data.name, self.score)
@@ -42,6 +53,10 @@ class HeroFightScore:
     @staticmethod
     def order_by_efectivity(hero):
         return hero.order_cost_effectivity
+
+    @staticmethod
+    def order_by_score_cost_ratio(hero):
+        return hero.level_score_cost_ratio
 
 
 def simul_fight(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
@@ -125,13 +140,60 @@ def sfr_fill_order_effectivity(hfs: [HeroFightScore]):
     for x in hfs:
         cost = 0
         if(x.hero_data.type == CHero.CONST_Type_Common):
+            cost = _level_costs_cumulative_common[x.hero_data.level]
+        elif(x.hero_data.type == CHero.CONST_Type_Rare):
+            cost = _level_costs_cumulative_rare[x.hero_data.level]
+        elif (x.hero_data.type == CHero.CONST_Type_Epic):
+            cost = _level_costs_cumulative_epic[x.hero_data.level]
+
+        x.order_cost_effectivity = cost/x.score
+
+    pass
+
+def sfr_fill_score_cost_ratio(hfs: [HeroFightScore]):
+
+    x: [HeroFightScore]
+    for x in hfs:
+        cost = 0
+        if(x.hero_data.type == CHero.CONST_Type_Common):
+            cost = _level_costs_cumulative_common[x.hero_data.level]
+        elif(x.hero_data.type == CHero.CONST_Type_Rare):
+            cost = _level_costs_cumulative_rare[x.hero_data.level]
+        elif (x.hero_data.type == CHero.CONST_Type_Epic):
+            cost = _level_costs_cumulative_epic[x.hero_data.level]
+
+        x.level_score_cost_ratio = cost/(x.score/x.hero_data.level)
+
+    pass
+
+
+
+
+def sfr_fill_upgrade_effectivity(hfs: [HeroFightScore]):
+
+    x: [HeroFightScore]
+    for x in hfs:
+        last_level_h = None
+
+
+        found_level = [_ for _ in hfs if  x.hero_data.name == _.hero_data.name and _.hero_data.level == x.hero_data.level-1]
+        if(len(found_level) > 0):
+            last_level_h = found_level[0]
+
+        if last_level_h is None: continue
+
+        cost = 0
+        if(x.hero_data.type == CHero.CONST_Type_Common):
             cost = _level_costs_common[x.hero_data.level]
         elif(x.hero_data.type == CHero.CONST_Type_Rare):
             cost = _level_costs_rare[x.hero_data.level]
         elif (x.hero_data.type == CHero.CONST_Type_Epic):
             cost = _level_costs_epic[x.hero_data.level]
 
-        x.order_cost_effectivity = cost/x.score
+
+        x.score_improvement = x.score - last_level_h.score
+        if(x.score_improvement != 0):
+           x.upgrade_effectivity = cost / x.score_improvement
 
     pass
 

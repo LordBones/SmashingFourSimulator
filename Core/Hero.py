@@ -11,11 +11,12 @@ __max_hero_levels = {CONST_Type_Common: 18, CONST_Type_Rare: 16, CONST_Type_Epic
 
 class Hero:
     __slots__ = ('id', 'name', 'type', 'level', 'attack', 'health', 'attack_increment_perc', 'health_increment_perc',
-                 'ability', 'ability_incr',
+                 'ability', 'ability_incr','help_mark'
                  )
 
     def __init__(self, level: int, type: int):
         self.id = uuid.uuid4()
+        self.help_mark = False
         self.name = 'generic'
         self.type = type
         self.level = level
@@ -34,6 +35,14 @@ class Hero:
         result = cls.__new__(cls)
         result.__dict__.update(self.__dict__)
         return result"""
+
+    @staticmethod
+    def order_by_level(hero):
+        return hero.level
+
+    @staticmethod
+    def order_by_name(hero):
+        return hero.name
 
 
 class HeroId:
@@ -66,16 +75,20 @@ vrati vsechny hrdiny o x level vyssich podle heroId
 """
 
 
-def get_all_heroes_next_level_by_hero_id(for_match: [HeroId], heros_src: [Hero], level_increment: int, name_suffix:str) -> [Hero]:
+def get_all_heroes_next_level_by_hero_id(for_match: [HeroId], heros_src: [Hero], level_increment: int, max_level:int) -> [Hero]:
     result: [Hero] = []
 
     for hi in for_match:
         next_level = hi.level + level_increment
-        match = [_ for _ in heros_src if (_.name == hi.name and _.level == next_level)]
-        if (len(match) > 0):
-            new_hero = copy.deepcopy(match[0])
-            new_hero.name = new_hero.name+name_suffix
-            result.append(new_hero)
+
+        while(next_level <= max_level):
+            match = [_ for _ in heros_src if (_.name == hi.name and _.level == next_level)]
+            if (len(match) > 0):
+                new_hero = copy.deepcopy(match[0])
+                new_hero.help_mark = True
+                result.append(new_hero)
+
+            next_level +=level_increment
 
     return result
 
