@@ -206,6 +206,12 @@ class fighter:
         self.health = health
 
 
+
+"""                -----------------------------------------------------------       ----------- """
+
+
+
+
 if __name__ == "__main__":
     # LoadHeores()
     pass
