@@ -9,7 +9,10 @@ class ArenaFighter_Spell(Enum):
 _fighter_kinds = {}
 
 def get_arena_fighter(name:str,hero: Hero)-> 'ArenaFighter' :
-    return _fighter_kinds[name](hero)
+    if(str in hero):
+       return _fighter_kinds[name](hero)
+    else:
+       return _fighter_kinds['generic'](hero)
 
 class ArenaFighter:
     __slots__ = ('hero', 'health', 'affected_spell_value','affected_spell'
@@ -44,11 +47,17 @@ class ArenaFighter:
     def active_hero_start(self):
         pass
 
-    def choose_targets(self, enemies: ['ArenaFighter'])->['ArenaFighter']:
-        return enemies
+    def choose_targets(self, enemies: ['ArenaFighter'],teammates:['ArenaFighter'])->['ArenaFighter']:
 
-    def attack(self, enemy: 'ArenaFighter'):
+        return next(_ for _ in enemies if id(_) != id(self))
+
+    def hit_enemy(self, enemy: 'ArenaFighter'):
         pass
+
+    def hit_friendly(self, enemy: 'ArenaFighter'):
+        pass
+
+
 
     def active_hero_end(self):
         pass
@@ -71,7 +80,10 @@ class ArenaFighter_Zombie(ArenaFighter):
     def choose_target(self, enemies: [ArenaFighter]):
         pass
 
-    def attack(self):
+    def hit_enemy(self, enemy: 'ArenaFighter'):
+        pass
+
+    def hit_friendly(self, enemy: 'ArenaFighter'):
         pass
 
     def active_hero_end(self):
