@@ -1,5 +1,6 @@
 from enum import Enum
 from itertools import accumulate
+from typing import Callable, Iterator, Union, Optional, List
 import Core.Hero as CHero
 
 
@@ -15,6 +16,24 @@ _level_costs_epic = dict(zip(range(1,15),[0,500,1000,2000,5000,10000,20000,30000
 _level_costs_cumulative_common = dict(zip(range(1,19),accumulate([0,10,25,50,150,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000])))
 _level_costs_cumulative_rare = dict(zip(range(1,17),accumulate([0,50,150,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000])))
 _level_costs_cumulative_epic = dict(zip(range(1,15),accumulate([0,500,1000,2000,5000,10000,20000,30000,40000,50000,100000,100000,100000,100000])))
+
+
+
+
+
+class HeroFightResult:
+    __slots__ = ('hero_data', 'fight_result')
+
+    def __init__(self, hero: CHero.Hero, fight_result: SimulFightResult):
+        self.hero_data = hero
+        self.fight_result = fight_result
+
+class HeroEnemyCanKillResult:
+    __slots__ = ('hero', 'enemies_fight_result')
+
+    def __init__(self, hero: CHero.Hero, enemies_fight_result: [HeroFightResult]):
+        self.hero = hero
+        self.enemies_fight_result = enemies_fight_result
 
 
 
@@ -78,6 +97,24 @@ def simul_fight(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
 
     return SimulFightResult.LOSE
 
+__simul_fight_result_score_lookup= {SimulFightResult.WIN:1, SimulFightResult.DRAW:0, SimulFightResult.LOSE:-1}
+
+def simul_2_fight(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
+    tmp_score = 0
+    fight_status = simul_fight(attaker, defender)
+    tmp_score += __simul_fight_result_score_lookup[fight_status]
+
+    fight_status = simul_fight(defender, attaker)
+    tmp_score += -__simul_fight_result_score_lookup[fight_status]
+
+    if (tmp_score > 0):
+        return  SimulFightResult.WIN
+    elif (tmp_score == 0):
+        return  SimulFightResult.DRAW
+    else:
+        return SimulFightResult.LOSE
+
+
 
 def simul_fights(heroes_for_evaluate: [CHero.Hero], oponents: [CHero.Hero]) -> [HeroFightScore]:
     result: [HeroFightScore] = []
@@ -90,31 +127,18 @@ def simul_fights(heroes_for_evaluate: [CHero.Hero], oponents: [CHero.Hero]) -> [
 
         for m in range(0, len(oponents)):
             tmp_score = 0
-            fight_status = simul_fight(hero, oponents[m])
+            fight_status = simul_2_fight(hero,oponents[m])
+
             if (fight_status == SimulFightResult.WIN):
-                tmp_score+=1
-            elif (fight_status == SimulFightResult.DRAW):
-                tmp_score += 0
-            else:
-                tmp_score -= 1
-
-            fight_status = simul_fight(oponents[m], hero)
-            if (fight_status == SimulFightResult.LOSE):
-                tmp_score += 1
-            elif (fight_status == SimulFightResult.DRAW):
-                tmp_score += 0
-            else:
-                tmp_score -= 1
-
-            if(tmp_score > 0):
                 result_score += 2
                 count_win += 1
-            elif(tmp_score == 0):
+            elif (fight_status == SimulFightResult.DRAW):
                 result_score += 1
                 count_draw += 1
             else:
                 result_score += 0
                 count_lose += 1
+
 
         hfs = HeroFightScore(hero, result_score)
         hfs.draw = count_draw
@@ -125,9 +149,39 @@ def simul_fights(heroes_for_evaluate: [CHero.Hero], oponents: [CHero.Hero]) -> [
 
     return result
 
+def fight_generator(hero_for_evaluate: CHero.Hero, oponents: [CHero.Hero])->Iterator[HeroFightResult]:
+
+    for oponent in oponents:
+        fight_status = simul_2_fight(hero_for_evaluate, oponent)
+
+        yield HeroFightResult(oponent,fight_status)
+
+def fight_enemies_can_kill(heroes_for_evaluate: [CHero.Hero], oponents: [CHero.Hero])->[HeroEnemyCanKillResult]:
+
+    result:[HeroEnemyCanKillResult] = []
+
+    for hero in heroes_for_evaluate:
+        tmp_dict = {}
+
+        for oponent_result in fight_generator(hero,oponents):
+            if(oponent_result.fight_result == SimulFightResult.LOSE): continue
+
+            opo_name = oponent_result.hero_data.name
+            if(opo_name not in tmp_dict):
+                tmp_dict[opo_name] = oponent_result
+
+            if(tmp_dict[opo_name].hero_data.level < oponent_result.hero_data.level):
+                tmp_dict[opo_name] = oponent_result
+
+
+        tmp_result:[HeroFightResult] = []
+        hfr = [c[1] for c in tmp_dict.items()]
+        result.append(HeroEnemyCanKillResult(hero,hfr))
+
+    return result
 
 def sfr_fill_order(hfs: [HeroFightScore]):
-    hfs.sort(reverse=True, key=HeroFightScore.order_by_score)
+    hfs.sort(reverse=True, key=lambda x: x.order_by_score )
 
     for x in range(0, len(hfs)):
         hfs[x].order = x

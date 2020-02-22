@@ -1,5 +1,5 @@
 from Core import Hero
-from Core.FightSimulator import HeroFightScore
+from Core.FightSimulator import HeroFightScore, HeroEnemyCanKillResult
 import csv
 
 
@@ -141,6 +141,43 @@ def save_hero_fight_score(file_name: str, heroes_score:[HeroFightScore]):
                 '{:>5}'.format(hero.attack),
                 '{:>5}'.format(hero.health),
             ])
+
+def save_who_i_can_kill(file_name: str, heroes_cankill:[HeroEnemyCanKillResult]):
+
+
+
+    with open(file_name, mode='w', newline='', encoding='utf-8') as file:
+        f_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        fTypes_map = {Hero.CONST_Type_Common: 'c',
+                      Hero.CONST_Type_Rare: 'r',
+                      Hero.CONST_Type_Epic: 'e'}
+        count_cols = len(heroes_cankill)
+        header = ['{:20}'.format(fTypes_map[x.hero.type]+ " " + x.hero.name) for x in heroes_cankill]
+
+        f_writer.writerow(header)
+        f_writer.writerow([])
+        tmp_enemies = [ x.enemies_fight_result  for x in heroes_cankill]
+        for item in tmp_enemies:
+            item.sort(reverse=True, key=lambda x:x.hero_data.name)
+
+        max_iteration = len(max(tmp_enemies,key= lambda x:len(x)))
+
+        for index in range(0,max_iteration):
+            row = []
+            for enemies in tmp_enemies:
+
+                text = ""
+                if(len(enemies) >= index):
+                    enemy = enemies[index]
+                    text = '{:20}'.format(fTypes_map[enemy.hero_data.type]+" "+ enemy.hero_data.name+ " " + str(enemy.hero_data.level))
+
+                row.append(text)
+
+            f_writer.writerow(row)
+    pass
+
+
 
 if __name__ == "__main__":
     pass

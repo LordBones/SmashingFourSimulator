@@ -81,6 +81,17 @@ def compute_mycards_heroes_fight():
     Core.CSV.save_hero_fight_score("ResultData/{0}_FR_sortUpgrade.csv".format('MyHeroesCards'), special_prefix)
     pass
 
+def compute_enemy_i_can_kill(result_name:str):
+    heroes_db = Core.CSV.load_Heroes("InputData/HeroesDB.csv")
+    my_heroes = Core.CSV.load_heroe_ids("InputData/MyHandCards.csv")
+    heroes_for_compute: [Core.Hero.Hero] = Core.Hero.get_all_heroes_by_hero_id(my_heroes, heroes_db)
+
+    result = Core.FightSimulator.fight_enemies_can_kill(heroes_for_compute,heroes_db)
+
+    Core.CSV.save_who_i_can_kill("ResultData/{0}_CardHands_CanKill.csv".format(result_name), result)
+
+    pass
+
 def compute_heroes_fight(heroes:[Core.Hero.Hero]) -> [Core.FightSimulator.HeroFightScore]:
     heroes_db = Core.CSV.load_Heroes("InputData/HeroesDB.csv")
 
@@ -116,7 +127,8 @@ if __name__ == "__main__":
 
     #gen_heores_db()
     #compute_all_heroes_fight()
-    compute_mycards_heroes_fight()
+    #compute_mycards_heroes_fight()
+    compute_enemy_i_can_kill("01")
     # compute_onehero_fight('zombie')
     #compute_onehero_fight('zombie','zombieNext')
 
