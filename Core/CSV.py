@@ -1,4 +1,5 @@
 from Core import Hero
+from statistics import mean
 from Core.FightSimulator import HeroFightScore, HeroEnemyCanKillResult
 import csv
 
@@ -153,13 +154,40 @@ def save_who_i_can_kill(file_name: str, heroes_cankill:[HeroEnemyCanKillResult])
                       Hero.CONST_Type_Rare: 'r',
                       Hero.CONST_Type_Epic: 'e'}
         count_cols = len(heroes_cankill)
-        header = ['{:20}'.format(fTypes_map[x.hero.type]+ " " + x.hero.name) for x in heroes_cankill]
+
+        def get_avg_level(heroes_cankill:[HeroEnemyCanKillResult], type_heroe:int)->[float]:
+            tmp = [[_.hero_data.level for _ in x.enemies_fight_result if
+                 _.hero_data.type == type_heroe] for x in heroes_cankill]
+            for i in range(0,len(tmp)):
+                if(len(tmp[i]) == 0):
+                    tmp[i].append(-1)
+
+            return [float(mean(_)) for _ in tmp]
+
+
+        avg_levels_c = get_avg_level(heroes_cankill, Hero.CONST_Type_Common)
+        #[float(mean(_.hero_data.level for _ in x.enemies_fight_result if _.hero_data.type == Hero.CONST_Type_Common)) for x in heroes_cankill]
+        avg_levels_r = get_avg_level(heroes_cankill, Hero.CONST_Type_Rare)
+        avg_levels_e = get_avg_level(heroes_cankill, Hero.CONST_Type_Epic)
+       # [
+        #    float(mean(_.hero_data.level for _ in x.enemies_fight_result if _.hero_data.type == Hero.CONST_Type_Rare))
+        #    for x in heroes_cankill]
+        #avg_levels_e = [
+        #    float(mean(_.hero_data.level for _ in x.enemies_fight_result if _.hero_data.type == Hero.CONST_Type_Epic))
+        #    for x in heroes_cankill]
+
+        header = ['{:20}'.format(fTypes_map[x.hero.type]+ " " + x.hero.name + " " + str(x.hero.level)) for x in heroes_cankill]
 
         f_writer.writerow(header)
+        f_writer.writerow(['{:>20}'.format('{:3.2f}'.format(_)+" avg. lvl c") for _ in avg_levels_c])
+        f_writer.writerow(['{:>20}'.format('{:3.2f}'.format(_) + " avg. lvl r") for _ in avg_levels_r])
+        f_writer.writerow(['{:>20}'.format('{:3.2f}'.format(_) + " avg. lvl e") for _ in avg_levels_e])
+
         f_writer.writerow([])
         tmp_enemies = [ x.enemies_fight_result  for x in heroes_cankill]
         for item in tmp_enemies:
-            item.sort(reverse=True, key=lambda x:x.hero_data.name)
+            item.sort(reverse=False, key=lambda x:x.hero_data.name)
+            item.sort(reverse=False, key=lambda x:x.hero_data.type)
 
         max_iteration = len(max(tmp_enemies,key= lambda x:len(x)))
 
@@ -168,7 +196,7 @@ def save_who_i_can_kill(file_name: str, heroes_cankill:[HeroEnemyCanKillResult])
             for enemies in tmp_enemies:
 
                 text = ""
-                if(len(enemies) >= index):
+                if(len(enemies) > index):
                     enemy = enemies[index]
                     text = '{:20}'.format(fTypes_map[enemy.hero_data.type]+" "+ enemy.hero_data.name+ " " + str(enemy.hero_data.level))
 

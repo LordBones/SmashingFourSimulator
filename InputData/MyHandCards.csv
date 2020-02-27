@@ -1,7 +1,23 @@
 name,level
 
 naga      , 10
-golem      , 9
-zombie     , 7
+polarni_liska, 8 
+
+zombie     , 8
 barbaka    , 9
+golem      , 9
+bersek     , 9
+kostlivec  , 9
+stromak    , 9
+goblin     , 8
+pirat      , 8
+yeti       , 8
+
+paladin    , 7
+kovar      , 6 
+rytir      , 6
+jaguar 	   , 5 
+
+
+
 

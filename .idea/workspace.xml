@@ -98,13 +98,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Sandbox.py</url>
-          <line>92</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" log-message="true" log-stack="true" type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

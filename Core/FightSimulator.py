@@ -1,6 +1,8 @@
 from enum import Enum
 from itertools import accumulate
 from typing import Callable, Iterator, Union, Optional, List
+
+from Core.Arena import FightArena
 import Core.Hero as CHero
 
 
@@ -33,7 +35,7 @@ class HeroEnemyCanKillResult:
 
     def __init__(self, hero: CHero.Hero, enemies_fight_result: [HeroFightResult]):
         self.hero = hero
-        self.enemies_fight_result = enemies_fight_result
+        self.enemies_fight_result: [HeroFightResult] = enemies_fight_result
 
 
 
@@ -78,7 +80,7 @@ class HeroFightScore:
         return hero.level_score_cost_ratio
 
 
-def simul_fight(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
+def simul_fight2(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
     tmp_attaker = fighter(attaker, attaker.health)
     tmp_defender = fighter(defender, defender.health)
 
@@ -96,6 +98,21 @@ def simul_fight(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
             (tmp_defender.hero == attaker and tmp_defender.health > 0)): return SimulFightResult.WIN
 
     return SimulFightResult.LOSE
+
+def simul_fight(attaker: CHero.Hero, defender: CHero.Hero) -> SimulFightResult:
+
+    arena = FightArena()
+    arena.set_teams([attaker],[defender])
+    arena.run()
+
+    if(not arena.is_team1_win()):
+        return SimulFightResult.LOSE
+    elif(not arena.is_team2_win()):
+        return SimulFightResult.WIN
+    else:
+        return SimulFightResult.LOSE
+    pass
+
 
 __simul_fight_result_score_lookup= {SimulFightResult.WIN:1, SimulFightResult.DRAW:0, SimulFightResult.LOSE:-1}
 
@@ -181,7 +198,7 @@ def fight_enemies_can_kill(heroes_for_evaluate: [CHero.Hero], oponents: [CHero.H
     return result
 
 def sfr_fill_order(hfs: [HeroFightScore]):
-    hfs.sort(reverse=True, key=lambda x: x.order_by_score )
+    hfs.sort(reverse=True, key=lambda x: x.score )
 
     for x in range(0, len(hfs)):
         hfs[x].order = x
