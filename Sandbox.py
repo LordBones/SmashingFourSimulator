@@ -134,8 +134,8 @@ def save_fight_results(results: [Core.FightSimulator.HeroFightScore], result_nam
 
 
 if __name__ == "__main__":
-    #cProfile.run('compute_all_heroes_fight()',sort=2)
-    cProfile.run('compute_enemy_i_can_kill_same_levels("SameLevel_Common",Core.Hero.CONST_Type_Common, 9)',sort=2)
+    cProfile.run('compute_all_heroes_fight()',sort=2)
+    #cProfile.run('compute_enemy_i_can_kill_same_levels("SameLevel_Common",Core.Hero.CONST_Type_Common, 9)',sort=2)
 
     #gen_heores_db()
     #compute_all_heroes_fight()

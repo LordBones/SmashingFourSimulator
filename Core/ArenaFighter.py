@@ -55,10 +55,13 @@ class ArenaFighter:
     def arena_round_start(self):
         pass
 
-    def arena_round_end(self, enemies: ['ArenaFighter']):
-
+    def arena_round_end_spells(self ):
         if self.affected_spell == ArenaFighter_Spell.POISON_ZOMBIE:
             self.set_hit(self.affected_spell_value)
+
+        pass
+
+    def arena_round_end(self, enemies: ['ArenaFighter']):
 
         pass
 
@@ -182,9 +185,10 @@ class ArenaFighter_Golem(ArenaFighter):
         super().__init__(hero)
 
     def arena_round_end(self, enemies: ['ArenaFighter']):
-        super().arena_round_end(enemies)
+
         attack = self._get_modify_attack(self.hero.ability)
         enemies[0].set_hit(attack)
+
         pass
 
 class ArenaFighter_Goblin(ArenaFighter):
@@ -220,11 +224,11 @@ class ArenaFighter_Druid(ArenaFighter):
         super().__init__(hero)
 
     def arena_round_end(self, enemies: ['ArenaFighter']):
-        super().arena_round_end(enemies)
 
         enemy = max(enemies,key=lambda x: x.health)
         attack = self._get_modify_attack(self.hero.ability)
         enemy.set_hit(attack)
+
         pass
 
 

@@ -11,7 +11,7 @@ class FightArena:
         self.team1:[Hero] = []
         self.team2: [Hero] = []
 
-        self.arena_teams:[AFTeam] = ()
+        self.arena_teams:[AFTeam] = [AFTeam(),AFTeam()]
 
 
         pass
@@ -55,8 +55,8 @@ class FightArena:
 
 
             attaker.active_hero_end(defender_team.alive)
+            FightArena._call_round_end_spells(defender_team.alive)
             FightArena._call_round_end(attaker_team.alive, defender_team.alive )
-            FightArena._call_round_end( defender_team.alive,  attaker_team.alive )
 
             defender_team.remove_deads()
 
@@ -78,6 +78,14 @@ class FightArena:
     def _call_round_end(fighters:[ArenaFighter], enemies:[ArenaFighter]):
         for i in fighters:
             i.arena_round_end(enemies)
+
+        pass
+
+    @staticmethod
+    def _call_round_end_spells( enemies:[ArenaFighter]):
+        for i in enemies:
+            i.arena_round_end_spells()
+
         pass
 
 
@@ -95,7 +103,12 @@ class FightArena:
             af.team_group = 0
             af.reset()
 
-        self.arena_teams = (AFTeam(team1),AFTeam(team2))
+        self.arena_teams[0].reset()
+        self.arena_teams[1].reset()
+        self.arena_teams[0].set_fighters(team1)
+        self.arena_teams[1].set_fighters(team2)
+
+        #self.arena_teams = (AFTeam(team1),AFTeam(team2))
         #self.arena_teams.append()
         pass
 
@@ -106,10 +119,20 @@ class AFTeam:
     __slots__ = ('alive', 'active_f_index','dead'
                  )
 
-    def __init__(self,fighters: [ArenaFighter]):
-        self.alive:[ArenaFighter] = fighters
+    def __init__(self):
+        self.alive:[ArenaFighter] = []
         self.dead: [ArenaFighter] = []
         self.active_f_index:int = 0
+        pass
+
+    def reset(self):
+        self.alive.clear()
+        self.dead.clear()
+        self.active_f_index = 0
+        pass
+
+    def set_fighters(self,fighters: [ArenaFighter]):
+        self.alive.extend(fighters)
         pass
 
     def get_active(self)->ArenaFighter:
